@@ -4,7 +4,7 @@ const protectedRoutes = ["/dashboard"]
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const sessionCookie = req.cookies.get("session");
+  const sessionCookie = req.cookies.get("session-token");
 
   if (protectedRoutes.some((route) => pathname.startsWith(route)) && !sessionCookie) {
     const url = new URL("/login", req.url);
