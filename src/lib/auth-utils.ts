@@ -14,7 +14,7 @@ export async function getSession() {
     const payload = verfied.payload;
 
     const user = await prisma.user.findUnique({
-      where: { id: payload.id },
+      where: { id: payload.id as string },
       select: { id: true, email: true, name: true },
     });
     
