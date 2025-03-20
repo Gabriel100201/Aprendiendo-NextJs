@@ -10,9 +10,9 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET) || 'SECRET_K
 
 export async function login(email: string, password: string) {
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.usuarios.findUnique({
       where: {
-        email: email
+        mail: email
       }
     });
 
@@ -22,8 +22,8 @@ export async function login(email: string, password: string) {
 
     const token = await new SignJWT({
       id: user.id,
-      email: user.email,
-      name: user.name
+      email: user.mail,
+      name: user.nombre
     })
       .setProtectedHeader({ alg: "HS256" })
       .setIssuedAt()
@@ -52,10 +52,10 @@ export async function logout() {
   return { success: true }
 }
 
-export async function register(email: string, password: string, name: string) {
+export async function register(mail: string, password: string, nombre: string) {
   try {
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
+    const existingUser = await prisma.usuarios.findUnique({
+      where: { mail },
     })
 
     if (existingUser) {
@@ -64,15 +64,15 @@ export async function register(email: string, password: string, name: string) {
 
     const hashedPassword = await hash(password, 10)
 
-    await prisma.user.create({
+    await prisma.usuarios.create({
       data: {
-        email,
+        mail,
         password: hashedPassword,
-        name,
+        nombre,
       },
     })
 
-    return login(email, password)
+    return login(mail, password)
   } catch (error) {
     console.error("Registration error:", error)
     return { success: false, error: "Failed to register" }

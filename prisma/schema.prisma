@@ -3,16 +3,44 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  role      String   @default("USER")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model menu_categoria {
+  id_categoria Int     @id
+  tag          String? @db.Text
+  descripcion  String? @db.Text
+}
+
+model menu_organismo {
+  id_organismo Int     @id
+  organismo    String? @db.Text
+}
+
+model menu_serv_cat {
+  id_categoria Int?
+  id_servicio  Int?
+  id_serv_cat  Int  @id
+}
+
+model menu_servicios {
+  id              Int     @id
+  id_organismo    Int?
+  titulo          String? @db.Text
+  icono           String? @db.Text
+  subtitulo       String? @db.Text
+  resumen         String? @db.Text
+  tipo_componente String? @db.Text
+  id_menu         String? @db.Text
+  roles           String? @db.Text
+  estado_servicio String? @db.Text
+}
+
+model usuarios {
+  id        Int       @id @default(autoincrement())
+  nombre    String?   @db.VarChar(255)
+  mail      String    @unique(map: "mail") @db.VarChar(255)
+  password  String    @db.VarChar(255)
+  createdAt DateTime? @default(now()) @db.Timestamp(0)
 }

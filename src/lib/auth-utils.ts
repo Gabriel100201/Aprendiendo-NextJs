@@ -11,11 +11,11 @@ export async function getSession() {
     if (!token) return null;
 
     const verfied = await jwtVerify(token, JWT_SECRET);
-    const payload = verfied.payload;
+    const payload = verfied.payload ?? {};
 
-    const user = await prisma.user.findUnique({
-      where: { id: payload.id as string },
-      select: { id: true, email: true, name: true },
+    const user = await prisma.usuarios.findUnique({
+      where: { id: payload.id as number },
+      select: { id: true, mail: true, nombre: true },
     });
     
     if (!user) return null;
