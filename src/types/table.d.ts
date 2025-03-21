@@ -7,6 +7,7 @@ interface TableComponentProps {
   data: dataTable;
   onRowClick?: (row: T) => void;
   placeHolder?: string;
+  selectedCategoria?: number | null;
 };
 
 export { TableComponentProps };

@@ -18,6 +18,7 @@ export const TableComponent = ({
   data,
   onRowClick,
   placeHolder,
+  selectedCategoria,
 }: TableComponentProps) => {
   return (
     <Table>
@@ -33,7 +34,7 @@ export const TableComponent = ({
           <TableHeader>
             <TableRow>
               {columns.map((column) => (
-                <TableHead key={column}>{column}</TableHead>
+                <TableHead key={column}>{column.toUpperCase()}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
@@ -43,7 +44,9 @@ export const TableComponent = ({
               <TableRow
                 key={rowIndex}
                 onClick={() => onRowClick?.(row)}
-                className={clickable ? "cursor-pointer hover:bg-muted" : ""}
+                className={`${
+                  clickable ? "cursor-pointer hover:bg-muted" : ""
+                } ${selectedCategoria === row.id_categoria ? "bg-muted" : ""}`}
               >
                 {" "}
                 {columns.map((column) => (
