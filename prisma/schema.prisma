@@ -21,7 +21,7 @@ model menu_organismo {
 model menu_serv_cat {
   id_categoria Int?
   id_servicio  Int?
-  id_serv_cat  Int  @id
+  id_serv_cat  Int @id @default(autoincrement())
 }
 
 model menu_servicios {
