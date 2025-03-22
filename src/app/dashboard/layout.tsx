@@ -15,11 +15,9 @@ export default async function DashboardLayout({
   }
 
   return (
-    <html lang="en">
-      <main className="flex flex-col gap-5 px-8 py-8">
-        <UserInfoComponent userInfo={user!}/>
-        {children}
-      </main>
-    </html>
+    <div className="flex flex-col gap-5 px-8 py-8">
+      <UserInfoComponent userInfo={user!} />
+      {children}
+    </div>
   );
 }

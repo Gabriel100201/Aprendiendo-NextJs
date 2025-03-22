@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Header = () => {
   return(
-    <section className="flex justify-center bg-white px-6 h-20">
+    <header className="flex justify-center bg-white px-6 h-20">
       <div className="flex justify-between items-center w-full h-full container">
         <div className="flex items-center gap-3 py-3 h-full">
           <Image src="/Logo-Sj.svg" alt="Logo Gobierno de San Juan" width={100} height={24}/>
@@ -10,7 +10,7 @@ const Header = () => {
           <span className="w-12 font-semibold text-xs">Gobierno Digital</span>
         </div>
       </div>
-    </section>
+    </header>
   )
 }
 

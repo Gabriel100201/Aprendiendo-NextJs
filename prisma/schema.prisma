@@ -8,13 +8,13 @@ datasource db {
 }
 
 model menu_categoria {
-  id_categoria Int     @id
+  id_categoria Int     @id @default(autoincrement())
   tag          String? @db.Text
   descripcion  String? @db.Text
 }
 
 model menu_organismo {
-  id_organismo Int     @id
+  id_organismo Int     @id @default(autoincrement())
   organismo    String? @db.Text
 }
 

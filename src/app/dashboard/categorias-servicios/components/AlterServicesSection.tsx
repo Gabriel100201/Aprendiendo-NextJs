@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { getServiciosByCategoria } from "@/actions/servicios/getServiciosByCategoria";
 import { menu_categoria as Categoria, menu_servicios as Servicio } from "@prisma/client";
-import { CategoriasCard } from "./CategoriasCard";
-import { ServiciosCard } from "./ServiciosCard";
 import { getCategorias } from "@/actions/categorias/getCategorias";
+import { ServiciosCard } from "./ServiciosCard";
+import { CategoriasCard } from "./CategoriasCard";
 
 export function AlterServicesSection() {
   const [servicios, setServicios] = useState<Servicio[]>([]);
@@ -28,8 +28,8 @@ export function AlterServicesSection() {
 
   return (
     <section className="flex gap-5 w-full">
-      <CategoriasCard categorias={categorias} selectedCategoria={selectedCategoria} handleCategoriaClick={handleCategoriaClick}/>
-      <ServiciosCard servicios={servicios}/>
+      <CategoriasCard flexSpace={1} categorias={categorias} selectedCategoria={selectedCategoria} handleCategoriaClick={handleCategoriaClick}/>
+      <ServiciosCard flexSpace={2} servicios={servicios}/>
     </section>
   );
 }

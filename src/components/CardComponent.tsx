@@ -1,7 +1,4 @@
-import {
-  Card,
-  CardContent
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 interface CardProps {
   children: React.ReactNode;
@@ -9,9 +6,5 @@ interface CardProps {
 }
 
 export const CardComponent = ({ children, style }: CardProps) => {
-  return (
-    <Card style={style}>
-      <CardContent>{children}</CardContent>
-    </Card>
-  );
+  return <Card style={{ ...style, padding: "2rem" }}>{children}</Card>;
 };
