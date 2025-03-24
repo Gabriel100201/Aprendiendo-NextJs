@@ -25,7 +25,7 @@ model menu_serv_cat {
 }
 
 model menu_servicios {
-  id              Int     @id
+  id              Int     @id @default(autoincrement())
   id_organismo    Int?
   titulo          String? @db.Text
   icono           String? @db.Text

@@ -1,12 +1,7 @@
-import { getServiciosByCategoria } from "@/actions/servicios/getServiciosByCategoria";
+import { ServiciosManager } from "./components";
 
-export default async function ServiciosPage() {
-  const servicios = await getServiciosByCategoria(1);
+export default function AddCategoriaPage() {
   return (
-    <>
-      {servicios.map((servicio) => (
-        <div key={servicio.resumen}>{servicio.titulo}</div>
-      ))}
-    </>
+      <ServiciosManager />
   );
 }

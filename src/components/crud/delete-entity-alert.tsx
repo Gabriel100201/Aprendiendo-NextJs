@@ -16,36 +16,39 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { deleteCategoria } from "@/actions/categorias/deleteCategoria"
+import type { EntityConfig } from "./types"
 
-interface DeleteCategoriaAlertProps {
-  id: number
-  name: string
+interface DeleteEntityAlertProps<T> {
+  item: T
+  config: EntityConfig<T>
   onSuccess: () => void
+  deleteAction: (id: number) => Promise<unknown>
 }
 
-export function DeleteCategoriaAlert({ id, name, onSuccess }: DeleteCategoriaAlertProps) {
+export function DeleteEntityAlert<T>({ item, config, onSuccess, deleteAction }: DeleteEntityAlertProps<T>) {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const itemId = config.getIdField(item)
+  const displayName = config.getDisplayName(item)
 
   const handleDelete = async () => {
     setIsLoading(true)
     try {
-      const result = await deleteCategoria(id)
+      const result = await deleteAction(itemId)
 
       if (Array.isArray(result)) {
-        toast.error("Error al eliminar categoría", {
-          description: "No se pudo eliminar la categoría",
+        toast.error(`Error al eliminar ${config.name.toLowerCase()}`, {
+          description: `No se pudo eliminar el ${config.name.toLowerCase()}`,
         })
       } else {
-        toast.success("Categoría eliminada", {
-          description: "La categoría se ha eliminado correctamente",
+        toast.success(`${config.name} eliminado`, {
+          description: `El ${config.name.toLowerCase()} se ha eliminado correctamente`,
         })
         onSuccess()
       }
     } catch (error) {
-      toast.error("Error al eliminar categoría", {
-        description: "Ocurrió un error al eliminar la categoría",
+      toast.error(`Error al eliminar ${config.name.toLowerCase()}`, {
+        description: `Ocurrió un error al eliminar el ${config.name.toLowerCase()}`,
       })
     } finally {
       setIsLoading(false)
@@ -64,7 +67,7 @@ export function DeleteCategoriaAlert({ id, name, onSuccess }: DeleteCategoriaAle
         <AlertDialogHeader>
           <AlertDialogTitle>¿Está seguro?</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción eliminará la categoría &apos;{name}&apos; y no se puede deshacer.
+            Esta acción eliminará el {config.name.toLowerCase()} &apos;{displayName}&apos; y no se puede deshacer.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

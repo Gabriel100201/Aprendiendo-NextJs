@@ -4,12 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { menu_categoria as Categoria } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export async function addCategoria(categoria: Omit<Categoria, "id_categoria">) {
+export async function addCategoria(data: Partial<Categoria>) {
   try {
     const newCategoria = await prisma.menu_categoria.create({
       data: {
-        tag: categoria.tag,
-        descripcion: categoria.descripcion
+        tag: data.tag,
+        descripcion: data.descripcion
       }
     });
     revalidatePath("/categorias")

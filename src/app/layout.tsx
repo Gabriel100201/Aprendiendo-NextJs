@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Header />
         <main className="flex-1">{children}</main>
-        <Toaster />
+        <Toaster richColors/>
         <Footer />
       </body>
     </html>
