@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "sonner"
 import { AddEntityDialog } from "./add-entity-dialog"
@@ -27,8 +27,8 @@ export function EntityManager<T>({
 }: EntityManagerProps<T>) {
   const [items, setItems] = useState<T[]>([])
   const [isLoading, setIsLoading] = useState(true)
-
-  const loadItems = async () => {
+  
+  const loadItems = useCallback(async () => {
     setIsLoading(true)
     try {
       const data = await fetchItems()
@@ -41,10 +41,11 @@ export function EntityManager<T>({
       setIsLoading(false)
     }
   }
+  , [fetchItems, setItems, setIsLoading, config.namePlural])
 
   useEffect(() => {
     loadItems()
-  }, [])
+  }, [loadItems])
 
   return (
     <Card className="shadow-sm w-full">

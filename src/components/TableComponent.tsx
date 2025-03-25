@@ -48,7 +48,6 @@ export const TableComponent = ({
                   clickable ? "cursor-pointer hover:bg-muted" : ""
                 } ${selectedCategoria === row.id_categoria ? "bg-muted" : ""}`}
               >
-                {" "}
                 {columns.map((column) => (
                   <TableCell key={column}>{row[column] ?? "-"}</TableCell>
                 ))}
