@@ -1,93 +1,56 @@
-async function main() {
-  const bcrypt = await import("bcrypt");
-  const { prisma } = await import("@/lib/prisma");
+import fs from "fs";
+import path from "path";
+import bcrypt from "bcrypt";
+import { prisma } from "@/lib/prisma";
 
+async function main() {
   console.log("🌱 Seeding database...");
 
-  const hashedPassword1 = await bcrypt.hash("123456", 10);
-  const hashedPassword2 = await bcrypt.hash("abcdef", 10);
+  // Leer el archivo JSON
+  const filePath = path.join(__dirname, "seedData.json");
+  const rawData = fs.readFileSync(filePath, "utf-8");
+  const data = JSON.parse(rawData);
 
+  // Encriptar contraseñas
+  for (const user of data.usuarios) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+
+  // Insertar datos en la base de datos
   await prisma.menu_categoria.createMany({
-    data: [
-      { id_categoria: 1, tag: "comida", descripcion: "Categoría de comida" },
-      { id_categoria: 2, tag: "bebidas", descripcion: "Categoría de bebidas" },
-    ],
-    skipDuplicates: true,
+    data: data.menu_categoria,
+    skipDuplicates: true
   });
 
   await prisma.menu_organismo.createMany({
-    data: [
-      { id_organismo: 1, organismo: "Gobierno" },
-      { id_organismo: 2, organismo: "Privado" },
-    ],
-    skipDuplicates: true,
+    data: data.menu_organismo,
+    skipDuplicates: true
   });
 
   await prisma.menu_servicios.createMany({
-    data: [
-      {
-        id: 1,
-        id_organismo: 1,
-        titulo: "Licencias de conducir",
-        icono: "🚗",
-        subtitulo: "Renovación y emisión de licencias",
-        resumen: "Trámite para obtener tu licencia",
-        tipo_componente: "formulario",
-        id_menu: "menu-1",
-        roles: "usuario,admin",
-        estado_servicio: "activo",
-      },
-      {
-        id: 2,
-        id_organismo: 2,
-        titulo: "Pago de impuestos",
-        icono: "💰",
-        subtitulo: "Declaración y pago de impuestos",
-        resumen: "Proceso de pago online",
-        tipo_componente: "web",
-        id_menu: "menu-2",
-        roles: "usuario",
-        estado_servicio: "activo",
-      },
-    ],
-    skipDuplicates: true,
+    data: data.menu_servicios,
+    skipDuplicates: true
   });
 
   await prisma.usuarios.createMany({
-    data: [
-      {
-        id: 1,
-        nombre: "Juan Pérez",
-        mail: "juan@example.com",
-        password: hashedPassword1,
-      },
-      {
-        id: 2,
-        nombre: "Ana Gómez",
-        mail: "ana@example.com",
-        password: hashedPassword2,
-      },
-    ],
-    skipDuplicates: true,
+    data: data.usuarios,
+    skipDuplicates: true
+  });
+
+  await prisma.menu_serv_cat.createMany({
+    data: data.menu_serv_cat,
+    skipDuplicates: true
   });
 
   console.log("✅ Seeding completed!");
-
-  await prisma.menu_serv_cat.createMany({
-    data: [
-      { id_categoria: 1, id_servicio: 1 },
-      { id_categoria: 2, id_servicio: 2 },
-    ],
-    skipDuplicates: true,
-  });
 }
 
+// Ejecutar seeding
 main()
   .catch((error) => {
     console.error("❌ Error en el seeding:", error);
     process.exit(1);
   })
   .finally(async () => {
-    const { prisma } = await import("@/lib/prisma");
     await prisma.$disconnect();
   });

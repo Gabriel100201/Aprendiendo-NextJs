@@ -1,0 +1,88 @@
+{
+  "menu_categoria": [
+    { "id_categoria": 1, "tag": "AGENTESPUBLICOS", "descripcion": "Agentes Públicos" },
+    { "id_categoria": 2, "tag": "DOCUMENTACION", "descripcion": "Documentacion" },
+    { "id_categoria": 3, "tag": "CERTIFICADOS", "descripcion": "Certificados" },
+    { "id_categoria": 4, "tag": "SALUD", "descripcion": "Salud" },
+    { "id_categoria": 5, "tag": "RENTAS", "descripcion": "Rentas" },
+    { "id_categoria": 6, "tag": "BENEFICIOS", "descripcion": "Beneficios" },
+    { "id_categoria": 7, "tag": "EDUCACION", "descripcion": "Educacion" },
+    { "id_categoria": 8, "tag": "TURNOS", "descripcion": "Turnos" },
+    { "id_categoria": 9, "tag": "DEUDAS", "descripcion": "Deudas" },
+    { "id_categoria": 10, "tag": "IPV", "descripcion": "IPV" }
+  ],
+  "menu_organismo": [
+    { "id_organismo": 1, "organismo": "Gobierno" },
+    { "id_organismo": 2, "organismo": "Privado" }
+  ],
+  "menu_servicios": [
+    {
+      "id": 1,
+      "id_organismo": 1,
+      "titulo": "Licencias de conducir",
+      "icono": "🚗",
+      "subtitulo": "Renovación y emisión de licencias",
+      "resumen": "Trámite para obtener tu licencia",
+      "tipo_componente": "formulario",
+      "id_menu": "menu-1",
+      "roles": "usuario,admin",
+      "estado_servicio": "activo"
+    },
+    {
+      "id": 2,
+      "id_organismo": 2,
+      "titulo": "Pago de impuestos",
+      "icono": "💰",
+      "subtitulo": "Declaración y pago de impuestos",
+      "resumen": "Proceso de pago online",
+      "tipo_componente": "web",
+      "id_menu": "menu-2",
+      "roles": "usuario",
+      "estado_servicio": "activo"
+    },
+    {
+      "id": 3,
+      "id_organismo": 2,
+      "titulo": "Pago de impuestos",
+      "icono": "💰",
+      "subtitulo": "Declaración y pago de impuestos",
+      "resumen": "Proceso de pago online",
+      "tipo_componente": "web",
+      "id_menu": "menu-2",
+      "roles": "admin",
+      "estado_servicio": "activo"
+    },
+    {
+      "id": 4,
+      "id_organismo": 2,
+      "titulo": "Pago de impuestos",
+      "icono": "💰",
+      "subtitulo": "Declaración y pago de impuestos",
+      "resumen": "Proceso de pago online",
+      "tipo_componente": "web",
+      "id_menu": "menu-2",
+      "roles": "admin,usuario",
+      "estado_servicio": "activo"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Juan Pérez",
+      "mail": "juan@example.com",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "nombre": "Ana Gómez",
+      "mail": "ana@example.com",
+      "password": "abcdef"
+    }
+  ],
+  "menu_serv_cat": [
+    { "id_categoria": 1, "id_servicio": 1 },
+    { "id_categoria": 1, "id_servicio": 2 },
+    { "id_categoria": 2, "id_servicio": 1 },
+    { "id_categoria": 2, "id_servicio": 2 }
+  ]
+}

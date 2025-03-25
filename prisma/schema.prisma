@@ -8,33 +8,226 @@ datasource db {
 }
 
 model menu_categoria {
-  id_categoria Int     @id @default(autoincrement())
-  tag          String? @db.Text
-  descripcion  String? @db.Text
+  id_categoria  Int             @id @default(autoincrement())
+  tag           String          @db.VarChar(100)
+  descripcion   String?         @db.VarChar(100)
+  menu_serv_cat menu_serv_cat[]
 }
 
 model menu_organismo {
-  id_organismo Int     @id @default(autoincrement())
-  organismo    String? @db.Text
+  id_organismo   Int              @id @default(autoincrement())
+  organismo      String?          @db.VarChar(100)
+  menu_servicios menu_servicios[]
 }
 
 model menu_serv_cat {
-  id_categoria Int?
-  id_servicio  Int?
-  id_serv_cat  Int @id @default(autoincrement())
+  id_categoria   Int
+  id_servicio    Int
+  id_serv_cat    Int            @id @default(autoincrement())
+  menu_categoria menu_categoria @relation(fields: [id_categoria], references: [id_categoria], onDelete: NoAction, onUpdate: NoAction, map: "fk_categoria")
+  menu_servicios menu_servicios @relation(fields: [id_servicio], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_servicio")
+
+  @@index([id_categoria], map: "fk_categoria")
+  @@index([id_servicio], map: "fk_servicio")
 }
 
 model menu_servicios {
-  id              Int     @id @default(autoincrement())
-  id_organismo    Int?
-  titulo          String? @db.Text
-  icono           String? @db.Text
-  subtitulo       String? @db.Text
-  resumen         String? @db.Text
-  tipo_componente String? @db.Text
-  id_menu         String? @db.Text
-  roles           String? @db.Text
-  estado_servicio String? @db.Text
+  id              Int             @id @default(autoincrement())
+  id_organismo    Int
+  titulo          String?         @db.VarChar(60)
+  icono           String?         @db.VarChar(50)
+  subtitulo       String?         @db.VarChar(150)
+  resumen         String?         @db.VarChar(250)
+  tipo_componente String?         @db.VarChar(50)
+  id_menu         String?         @db.VarChar(50)
+  roles           String?         @db.VarChar(50)
+  estado_servicio String?         @db.VarChar(20)
+  menu_serv_cat   menu_serv_cat[]
+  menu_organismo  menu_organismo  @relation(fields: [id_organismo], references: [id_organismo], onDelete: NoAction, onUpdate: NoAction, map: "fk_organismo")
+
+  @@index([id_organismo], map: "fk_organismo")
+}
+
+model WL_LLR_DEFAULTSERVER {
+  XIDSTR      String  @id @db.VarChar(40)
+  POOLNAMESTR String? @db.VarChar(64)
+  RECORDSTR   String? @db.VarChar(1000)
+}
+
+model reestablecer_solicitud_clave {
+  id               Int      @id @default(autoincrement())
+  persona          String   @db.VarChar(50)
+  clave_url        String   @db.VarChar(512)
+  clave_sms        String   @db.VarChar(512)
+  timestamp        DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+  fecha_caduca_url DateTime @db.DateTime(0)
+
+  @@index([fecha_caduca_url], map: "fecha_caduca_url")
+  @@index([persona, clave_url], map: "persona")
+  @@index([persona, clave_sms], map: "persona_2")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model servicios_cidi {
+  ministerio     String? @db.Text
+  titulo         String? @db.Text
+  resumen        String? @db.Text
+  id             String? @db.Text
+  roles          String? @db.Text
+  estadoServicio String? @db.Text
+  categoria      String? @db.Text
+
+  @@ignore
+}
+
+model valida_cert_antecedentes {
+  idvalidacion String    @id @db.VarChar(50)
+  persona      String    @db.VarChar(30)
+  timestamp_   DateTime? @default(now()) @map("_timestamp_") @db.Timestamp(0)
+}
+
+model valida_certifCF {
+  idvalidacion      String    @db.VarChar(10)
+  cuit              String    @db.VarChar(12)
+  nro_certificado   String?   @db.VarChar(20)
+  fecha_emision     String?   @db.VarChar(20)
+  fecha_vencimiento String?   @db.VarChar(20)
+  timestamp         DateTime? @default(now()) @map("_timestamp") @db.Timestamp(0)
+
+  @@id([idvalidacion, cuit])
+}
+
+model valida_certif_activos {
+  idvalidacion  String   @db.VarChar(10)
+  dni           String   @db.VarChar(10)
+  fecha_emision String?  @db.VarChar(10)
+  liquida_mes   String?  @db.VarChar(3)
+  liquida_anio  String?  @db.VarChar(3)
+  timestamp     DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+
+  @@id([idvalidacion, dni])
+}
+
+model valida_conf_documentos {
+  Id                   Int     @id @default(autoincrement())
+  Reparticion          String  @db.VarChar(255)
+  NombreDocumento      String  @db.VarChar(255)
+  PrefijoTipoDocumento String  @db.VarChar(255)
+  Usuario              String  @db.VarChar(255)
+  Param1               String? @db.VarChar(255)
+  Param2               String? @db.VarChar(255)
+  Param3               String? @db.VarChar(255)
+  Param4               String? @db.VarChar(255)
+  habilitado           Int     @default(0)
+  Param1_formato       String? @db.VarChar(255)
+  Param2_formato       String? @db.VarChar(255)
+  Param3_formato       String? @db.VarChar(255)
+  Param4_formato       String? @db.VarChar(255)
+}
+
+model valida_covid19 {
+  idvalidacion String    @db.VarChar(8)
+  dni          Int
+  email        String    @db.VarChar(50)
+  timestamp    DateTime? @default(now()) @map("_timestamp") @db.Timestamp(0)
+  id           BigInt    @id @default(autoincrement())
+}
+
+model valida_covid19_frontera {
+  id_validacion String    @db.VarChar(10)
+  dni           Int
+  timestamp     DateTime? @default(now()) @map("_timestamp") @db.Timestamp(0)
+  id            BigInt    @id @default(autoincrement())
+}
+
+model valida_documentos {
+  idValidacion  String   @id @db.VarChar(10)
+  parametro1    String?  @db.VarChar(100)
+  parametro2    String?  @db.VarChar(100)
+  parametro3    String?  @db.VarChar(100)
+  parametro4    String?  @db.VarChar(100)
+  tipoDocumento String?  @db.VarChar(200)
+  usuario       String   @db.VarChar(50)
+  timestamp     DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+}
+
+model valida_estado_pluspagos {
+  id                  Int      @id @default(autoincrement())
+  item                String   @db.VarChar(255)
+  idTransac           String   @db.VarChar(255)
+  estado_operacion    String?  @db.VarChar(255)
+  respuesta_pluspagos String?  @db.VarChar(1000)
+  time_stamp          DateTime @default(now()) @db.Timestamp(0)
+}
+
+model valida_expediente {
+  idvalidacion   String    @db.VarChar(10)
+  dni            String    @db.VarChar(20)
+  num_expediente String?   @db.VarChar(100)
+  timestamp      DateTime? @default(now()) @map("_timestamp") @db.Timestamp(0)
+
+  @@id([idvalidacion, dni])
+}
+
+model valida_nomivac {
+  idvalidacion String    @db.VarChar(20)
+  dniUsuario   String    @db.VarChar(20)
+  fechaEmision String?   @db.VarChar(20)
+  timestamp    DateTime? @default(now()) @db.Timestamp(0)
+  id           BigInt    @id @default(autoincrement())
+}
+
+model valida_oficioceropj {
+  idvalidacion              String   @db.VarChar(10)
+  fecha_emision             String?  @db.VarChar(30)
+  dni                       String   @db.VarChar(10)
+  numero_oficio_electronico String?  @db.VarChar(30)
+  timestamp                 DateTime @default(now()) @db.Timestamp(0)
+
+  @@id([idvalidacion, dni])
+}
+
+model valida_partida {
+  idvalidacion String   @id @db.VarChar(10)
+  dnipadre     String?  @db.VarChar(10)
+  dnimadre     String?  @db.VarChar(10)
+  dnipersona   String?  @db.VarChar(10)
+  nrotomo      String?  @db.VarChar(30)
+  timestamp    DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+}
+
+model valida_pertran {
+  idvalidacion String   @db.VarChar(15)
+  dni          String   @db.VarChar(10)
+  timestamp    DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+  id           BigInt   @id @default(autoincrement())
+}
+
+model valida_recibo {
+  idvalidacion String   @db.VarChar(100)
+  neto         String   @db.VarChar(30)
+  padron       String   @db.VarChar(30)
+  fechanac     String   @db.VarChar(30)
+  periodo      String   @db.VarChar(10)
+  persona      String   @db.VarChar(50)
+  timestamp    DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+  generaciones Int      @default(1)
+
+  @@id([idvalidacion, neto, padron, fechanac, periodo, persona])
+}
+
+model valida_residual {
+  idvalidacion String   @db.VarChar(10)
+  DNI          String   @db.VarChar(30)
+  timestamp    DateTime @default(now()) @map("_timestamp") @db.Timestamp(0)
+
+  @@id([idvalidacion, DNI])
+}
+
+model valida_servicios {
+  id       Int     @id @default(autoincrement())
+  cidi     String  @db.VarChar(50)
+  servicio String? @db.VarChar(255)
 }
 
 model usuarios {

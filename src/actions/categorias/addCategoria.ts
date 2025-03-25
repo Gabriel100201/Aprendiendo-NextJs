@@ -8,7 +8,7 @@ export async function addCategoria(data: Partial<Categoria>) {
   try {
     const newCategoria = await prisma.menu_categoria.create({
       data: {
-        tag: data.tag,
+        tag: data.tag!,
         descripcion: data.descripcion
       }
     });

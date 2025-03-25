@@ -2,20 +2,15 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getServiciosByCategoria } from "@/actions/servicios/getServiciosByCategoria";
-import {
-  menu_categoria as Categoria,
-  menu_servicios as Servicio,
-} from "@prisma/client";
+import { menu_categoria as Categoria } from "@prisma/client";
 import { getCategorias } from "@/actions/categorias/getCategorias";
-import { ServiciosCard } from "./ServiciosCard";
-import { CategoriasCard } from "./CategoriasCard";
+import { CategoriasCard } from "./CategoriasPanel";
+import { CategoriaServiciosPanel } from "./ServiciosPanel";
 
 export function AlterServicesSection() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [servicios, setServicios] = useState<Servicio[]>([]);
   const [categorias, setCategorias] = useState<Categoria[]>([]);
   const [selectedCategoria, setSelectedCategoria] = useState<
     Categoria["id_categoria"] | null
@@ -34,10 +29,8 @@ export function AlterServicesSection() {
     if (categoriaFromUrl) {
       const categoriaId = parseInt(categoriaFromUrl);
       setSelectedCategoria(categoriaId);
-      getServiciosByCategoria(categoriaId).then(setServicios);
     } else {
       setSelectedCategoria(null);
-      setServicios([]);
     }
   }, [searchParams]);
 
@@ -46,8 +39,6 @@ export function AlterServicesSection() {
     params.set("categoria", categoriaId.toString());
     router.push(`?${params.toString()}`, { scroll: false });
     setSelectedCategoria(categoriaId);
-    const servicios = await getServiciosByCategoria(categoriaId);
-    setServicios(servicios);
   };
 
   return (
@@ -58,11 +49,7 @@ export function AlterServicesSection() {
         selectedCategoria={selectedCategoria}
         handleCategoriaClick={handleCategoriaClick}
       />
-      <ServiciosCard
-        flexSpace={2}
-        servicios={servicios}
-        selectedCategoria={selectedCategoria}
-      />
+      <CategoriaServiciosPanel flexSpace={1} />
     </section>
   );
 }
