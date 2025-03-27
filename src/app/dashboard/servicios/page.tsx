@@ -1,7 +1,7 @@
 import { ServiciosManager } from "./components";
+import { getServiciosConfigWithOrganismos } from "./servicios-config";
 
-export default function AddCategoriaPage() {
-  return (
-      <ServiciosManager />
-  );
+export default async function Page() {
+  const config = await getServiciosConfigWithOrganismos();
+  return <ServiciosManager config={config}/>;
 }

@@ -37,6 +37,7 @@ export function AddEntityDialog<T>({ config, onSuccess, addAction }: AddEntityDi
 
     setIsLoading(true)
     try {
+      console.log(formData);
       const result = await addAction(formData)
 
       if (Array.isArray(result)) {

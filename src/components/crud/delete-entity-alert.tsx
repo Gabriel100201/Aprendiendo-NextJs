@@ -28,8 +28,12 @@ interface DeleteEntityAlertProps<T> {
 export function DeleteEntityAlert<T>({ item, config, onSuccess, deleteAction }: DeleteEntityAlertProps<T>) {
   const [isLoading, setIsLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const itemId = config.getIdField(item)
-  const displayName = config.getDisplayName(item)
+  const itemId =
+    config.getIdField?.(item) ??
+    (item as Record<string, number>).id ??
+    (item as Record<string, number>).id_categoria;
+  const displayName =
+    config.getDisplayName?.(item) ?? (item as Record<string, number>).name;
 
   const handleDelete = async () => {
     setIsLoading(true)

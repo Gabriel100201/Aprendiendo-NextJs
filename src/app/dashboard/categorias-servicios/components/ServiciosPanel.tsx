@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { serviciosConfig } from "../../servicios/servicios-categorias"
+import { serviciosConfig } from "../../servicios/servicios-config";
 
 import { addRelacion } from "@/actions/categorias_servicios/addRelation"
 import { getRelacionesByCategoria } from "@/actions/categorias_servicios/getRelacionesByCategoria"

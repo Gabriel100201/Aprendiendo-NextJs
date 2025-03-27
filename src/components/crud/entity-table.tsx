@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { EditEntityDialog } from "./edit-entity-dialog"
 import { DeleteEntityAlert } from "./delete-entity-alert"
@@ -58,7 +59,7 @@ export function EntityTable<T>({
           </TableRow>
         ) : (
           items.map((item) => (
-            <TableRow key={String(config.getIdField(item))}>
+            <TableRow key={String(config.getIdField?.(item) ?? (item as any).id ?? (item as any).id_categoria)}>
               {tableColumns.map((column) => (
                 <TableCell
                   key={column}

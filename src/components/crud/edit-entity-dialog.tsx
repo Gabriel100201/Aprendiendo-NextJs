@@ -28,8 +28,10 @@ export function EditEntityDialog<T>({ item, config, onSuccess, updateAction }: E
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState<Partial<T>>(item)
-  const itemId = config.getIdField(item)
-
+  const itemId =
+    config.getIdField?.(item) ??
+    (item as Record<string, number>).id ??
+    (item as Record<string, number>).id_categoria;
   useEffect(() => {
     if (isOpen) {
       setFormData(item)
@@ -37,7 +39,6 @@ export function EditEntityDialog<T>({ item, config, onSuccess, updateAction }: E
   }, [isOpen, item])
 
   const handleSubmit = async () => {
-    // Validate required fields
     const missingRequiredFields = config.fields
       .filter((field) => field.required)
       .some((field) => !(formData as never)[field.name])

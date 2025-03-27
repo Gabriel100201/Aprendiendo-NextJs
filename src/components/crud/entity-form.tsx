@@ -21,14 +21,32 @@ export function EntityForm<T>({ initialData, fields, isLoading, onChange }: Enti
   }, [initialData])
 
   const handleChange = (name: string, value: unknown) => {
-    const updatedData = { ...formData, [name]: value }
-    setFormData(updatedData)
-    onChange(updatedData)
-  }
+    const field = fields.find((f) => f.name === name);
+    const fieldType = field?.type;
+    const valueType = field?.valueType;
+
+    let parsedValue = value;
+
+    if (fieldType === "number" && typeof value === "string") {
+      parsedValue = value === "" ? "" : Number(value);
+    }
+    if (
+      fieldType === "select" &&
+      valueType === "number" &&
+      typeof value === "string"
+    ) {
+      parsedValue = Number(value);
+    }
+
+    const updatedData = { ...formData, [name]: parsedValue };
+    setFormData(updatedData);
+    onChange(updatedData);
+  };
 
   const renderField = (field: EntityField) => {
-    const value = (formData as never)[field.name] || ""
-
+    const rawValue = (formData as never)[field.name];
+    const value = rawValue !== undefined && rawValue !== null ? String(rawValue) : "";
+    
     switch (field.type) {
       case "textarea":
         return (
@@ -40,23 +58,27 @@ export function EntityForm<T>({ initialData, fields, isLoading, onChange }: Enti
             placeholder={field.placeholder}
             disabled={isLoading}
           />
-        )
+        );
 
       case "select":
         return (
-          <Select value={value} onValueChange={(value) => handleChange(field.name, value)} disabled={isLoading}>
+          <Select
+            value={value}
+            onValueChange={(value) => handleChange(field.name, value)}
+            disabled={isLoading}
+          >
             <SelectTrigger>
               <SelectValue placeholder={field.placeholder} />
             </SelectTrigger>
             <SelectContent>
               {field.options?.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
+                <SelectItem key={option.value} value={option.value.toString()}>
                   {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        )
+        );
 
       default:
         return (
@@ -69,9 +91,9 @@ export function EntityForm<T>({ initialData, fields, isLoading, onChange }: Enti
             disabled={isLoading}
             type={field.type === "number" ? "number" : "text"}
           />
-        )
+        );
     }
-  }
+  };
 
   return (
     <div className="gap-4 grid py-4">

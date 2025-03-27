@@ -5,6 +5,12 @@ import { revalidatePath } from "next/cache"
 
 export async function deleteServicio(id: number) {
   try {
+    await prisma.menu_serv_cat.deleteMany({
+      where: {
+        id_servicio: id,
+      },
+    });
+    
     const deletedServicio = await prisma.menu_servicios.delete({
       where: {
         id: id,
