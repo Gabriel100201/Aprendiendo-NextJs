@@ -1,7 +1,7 @@
-import type { menu_servicios as Servicio } from "@prisma/client"
-import type { EntityConfig } from "@/components/crud"
+import type { ServiciosBasicInfo } from "@/types/servicios";
+import type { EntityConfig } from "@/components/crud";
 
-export const serviciosConfig: EntityConfig<Servicio> = {
+export const serviciosConfig: EntityConfig<ServiciosBasicInfo> = {
   name: "Servicio",
   namePlural: "Servicios",
   fields: [
@@ -74,5 +74,4 @@ export const serviciosConfig: EntityConfig<Servicio> = {
     roles: "",
     estado_servicio: "activo",
   },
-}
-
+};
