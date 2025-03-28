@@ -75,7 +75,8 @@ export function ServicioSearch({ onAsociar, serviciosAsociadosIds }: ServicioSea
                 ) : (
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="success"
+                    className="cursor-pointer"
                     onClick={() => {
                       onAsociar(servicio.id)
                       setSearchTerm("")

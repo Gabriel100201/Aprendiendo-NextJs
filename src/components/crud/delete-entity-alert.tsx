@@ -63,7 +63,7 @@ export function DeleteEntityAlert<T>({ item, config, onSuccess, deleteAction }: 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" className="cursor-pointer" size="icon">
           <Trash2 className="w-4 h-4 text-red-500" />
         </Button>
       </AlertDialogTrigger>

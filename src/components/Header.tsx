@@ -16,7 +16,7 @@ const Header = async () => {
             width={100}
             height={24}
           />
-          <div className="bg-primary-600/50 rounded-3xl w-0.5 h-full"></div>
+          <div className="bg-brand-600/50 rounded-3xl w-0.5 h-full"></div>
           <span className="w-12 font-semibold text-xs">Gobierno Digital</span>
         </div>
         {user && <LogoutButton />}
