@@ -2,7 +2,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { EditEntityDialog } from "./edit-entity-dialog"
 import { DeleteEntityAlert } from "./delete-entity-alert"
-import type { EntityConfig } from "./types"
+import type { EntityConfig, EstadoColors } from "./types";
 
 interface EntityTableProps<T> {
   items: T[];
@@ -13,6 +13,13 @@ interface EntityTableProps<T> {
   columns?: string[];
 }
 
+const colorClasses: Record<EstadoColors, string> = {
+  red: "bg-red-200 text-red-800",
+  green: "bg-green-200 text-green-800",
+  yellow: "bg-yellow-200 text-yellow-800",
+  blue: "bg-blue-200 text-blue-800",
+};
+
 export function EntityTable<T>({
   items,
   config,
@@ -21,13 +28,15 @@ export function EntityTable<T>({
   deleteAction,
   columns,
 }: EntityTableProps<T>) {
-  
   const tableColumns =
     columns ||
     config.fields
       .filter((field) => field.type !== "textarea")
       .slice(0, 3)
       .map((field) => field.name);
+
+  const estadoColumn = config.fields.find((field) => field?.estadoColumn?.name);
+  const estadoColumnInfo = estadoColumn?.estadoColumn;
 
   return (
     <Table>
@@ -59,15 +68,40 @@ export function EntityTable<T>({
           </TableRow>
         ) : (
           items.map((item) => (
-            <TableRow key={String(config.getIdField?.(item) ?? (item as any).id ?? (item as any).id_categoria)}>
-              {tableColumns.map((column) => (
-                <TableCell
-                  key={column}
-                  className={column === tableColumns[0] ? "font-medium" : ""}
-                >
-                  {(item as never)[column]}
-                </TableCell>
-              ))}
+            <TableRow
+              key={String(
+                config.getIdField?.(item) ??
+                  (item as any).id ??
+                  (item as any).id_categoria
+              )}
+            >
+              {tableColumns.map((column) => {
+                const isEstado = column === estadoColumn?.name;
+                const estadoValue = (item as any)[column];
+                const estadoColor = estadoColumnInfo?.values.find(
+                  (v) => v.label === estadoValue
+                )?.color;
+                const estadoClass = estadoColor
+                  ? colorClasses[estadoColor]
+                  : "";
+
+                return (
+                  <TableCell
+                    key={column}
+                    className={column === tableColumns[0] ? "font-medium" : ""}
+                  >
+                    {isEstado ? (
+                      <span
+                        className={`${estadoClass} px-2 py-1 rounded-md text-xs`}
+                      >
+                        {estadoValue.toUpperCase()}
+                      </span>
+                    ) : (
+                      estadoValue
+                    )}
+                  </TableCell>
+                );
+              })}
               <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
                   {updateAction && (
@@ -95,4 +129,3 @@ export function EntityTable<T>({
     </Table>
   );
 }
-

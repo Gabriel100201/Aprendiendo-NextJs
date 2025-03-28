@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { getServicios } from "@/actions/servicios/getServicios"
 import type { Servicios } from "@/types/servicios"
+import { LucidePlus } from "lucide-react"
 
 interface ServicioSearchProps {
   onAsociar: (servicioId: number) => void
@@ -49,7 +50,7 @@ export function ServicioSearch({ onAsociar, serviciosAsociadosIds }: ServicioSea
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      
+
       {resultados.length > 0 && (
         <div className="z-50 absolute bg-white shadow-md mt-1 border rounded w-full max-h-72 overflow-y-auto">
           {resultados.map((servicio) => {
@@ -65,23 +66,25 @@ export function ServicioSearch({ onAsociar, serviciosAsociadosIds }: ServicioSea
                   <span className={deshabilitado ? "text-muted-foreground" : ""}>
                     {servicio.titulo}
                   </span>
-                  <div className="flex gap-1 mt-1">
-                    {deshabilitado && <Badge variant="destructive">Deshabilitado</Badge>}
-                    {linked && <Badge variant="secondary">Ya asociado</Badge>}
-                  </div>
                 </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => {
-                    onAsociar(servicio.id)
-                    setSearchTerm("")
-                    setResultados([])
-                  }}
-                  disabled={linked || deshabilitado}
-                >
-                  Asociar
-                </Button>
+
+                {linked ? (
+                  <Badge variant="secondary">Ya asociado</Badge>
+                ) : deshabilitado ? (
+                  <Badge variant="destructive">Deshabilitado</Badge>
+                ) : (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      onAsociar(servicio.id)
+                      setSearchTerm("")
+                      setResultados([])
+                    }}
+                  >
+                    <LucidePlus />
+                  </Button>
+                )}
               </div>
             )
           })}

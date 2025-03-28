@@ -76,7 +76,7 @@ export function EditEntityDialog<T>({ item, config, onSuccess, updateAction }: E
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="outline" size="icon">
           <Pencil className="w-4 h-4" />
         </Button>
       </DialogTrigger>
@@ -87,7 +87,7 @@ export function EditEntityDialog<T>({ item, config, onSuccess, updateAction }: E
         <EntityForm initialData={formData} fields={config.fields} isLoading={isLoading} onChange={setFormData} />
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline" size="sm" disabled={isLoading}>
+            <Button variant="secondary" size="sm" disabled={isLoading}>
               Cancelar
             </Button>
           </DialogClose>

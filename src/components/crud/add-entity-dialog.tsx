@@ -68,7 +68,7 @@ export function AddEntityDialog<T>({ config, onSuccess, addAction }: AddEntityDi
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="default" size="sm" className="flex items-center gap-1">
+        <Button variant="outline" size="sm" className="flex items-center gap-1">
           <Plus className="w-4 h-4" />
           <span>Agregar {config.name.toLowerCase()}</span>
         </Button>
@@ -80,11 +80,11 @@ export function AddEntityDialog<T>({ config, onSuccess, addAction }: AddEntityDi
         <EntityForm initialData={formData} fields={config.fields} isLoading={isLoading} onChange={setFormData} />
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline" size="sm" disabled={isLoading}>
+            <Button variant="outline" size="sm" className="cursor-pointer" disabled={isLoading}>
               Cancelar
             </Button>
           </DialogClose>
-          <Button type="submit" size="sm" onClick={handleSubmit} disabled={!isFormValid() || isLoading}>
+          <Button type="submit" variant={"success"} className="cursor-pointer" size="sm" onClick={handleSubmit} disabled={!isFormValid() || isLoading}>
             {isLoading ? "Guardando..." : "Guardar"}
           </Button>
         </DialogFooter>

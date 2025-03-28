@@ -4,7 +4,6 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,37 +45,27 @@ export default function LoginPage() {
       <div className="space-y-8 bg-card shadow-md p-6 border rounded-lg w-full max-w-md">
         <div className="text-center">
           <h1 className="font-bold text-3xl">Login</h1>
-          <p className="mt-2 text-muted-foreground">Enter your credentials to access your account</p>
+          <p className="mt-2 text-muted-foreground">Ingrese sus credenciales a continuación</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="name@example.com" required disabled={isLoading} />
+            <Input id="email" name="email" type="email" placeholder="nombre@ejemplo.com" required disabled={isLoading} />
           </div>
 
           <div className="space-y-2">
             <div className="flex justify-between items-center">
-              <Label htmlFor="password">Password</Label>
-              <Link href="/forgot-password" className="text-primary text-sm hover:underline">
-                Forgot password?
-              </Link>
+              <Label htmlFor="password">Contraseña</Label>
             </div>
-            <Input id="password" name="password" type="password" required disabled={isLoading} />
+            <Input id="password" name="password" type="password" placeholder="••••••••" required disabled={isLoading} />
           </div>
 
           {error && <div className="bg-destructive/15 p-3 rounded-md text-destructive text-sm">{error}</div>}
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
+          <Button type="submit" variant={"outline"} className="w-full hover:cursor-pointer" disabled={isLoading}>
+            {isLoading ? "Iniciando Sesión..." : "Ingresar"}
           </Button>
-
-          <div className="text-sm text-center">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-primary hover:underline">
-              Register
-            </Link>
-          </div>
         </form>
       </div>
     </div>

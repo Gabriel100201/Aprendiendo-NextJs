@@ -69,7 +69,10 @@ export function CategoriaServiciosPanel({ flexSpace }: ServiciosCardProps) {
     <CardComponent style={{ flex: flexSpace || 1 }}>
       {categoriaId ? (
         <>
-          <ServicioSearch serviciosAsociadosIds={serviciosAsociadosIds} onAsociar={handleAsociar} />
+          <ServicioSearch
+            serviciosAsociadosIds={serviciosAsociadosIds}
+            onAsociar={handleAsociar}
+          />
           <EntityTable
             items={servicios}
             config={serviciosConfig}
@@ -79,8 +82,12 @@ export function CategoriaServiciosPanel({ flexSpace }: ServiciosCardProps) {
           />
         </>
       ) : (
-        <p className="text-muted-foreground">Seleccioná una categoría para ver sus servicios asociados.</p>
+        <div className="flex justify-center items-center h-full">
+          <p className="text-muted-foreground text-xl">
+            Seleccione una categoría
+          </p>
+        </div>
       )}
     </CardComponent>
-  )
+  );
 }

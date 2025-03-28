@@ -57,9 +57,17 @@ const baseFields: EntityField[] = [
     type: "select",
     options: [
       { value: "activo", label: "Activo" },
-      { value: "inactivo", label: "Inactivo" },
+      { value: "deshabilitado", label: "Deshabilitado" },
       { value: "mantenimiento", label: "En mantenimiento" },
     ],
+    estadoColumn: {
+      name: "estado_servicio",
+      values: [
+        { label: "activo", color: "green" },
+        { label: "deshabilitado", color: "red" },
+        { label: "mantenimiento", color: "yellow" },
+      ]
+    },
   },
 ];
 

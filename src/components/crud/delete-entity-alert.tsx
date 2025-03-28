@@ -63,7 +63,7 @@ export function DeleteEntityAlert<T>({ item, config, onSuccess, deleteAction }: 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="outline" size="icon">
           <Trash2 className="w-4 h-4 text-red-500" />
         </Button>
       </AlertDialogTrigger>
@@ -71,17 +71,22 @@ export function DeleteEntityAlert<T>({ item, config, onSuccess, deleteAction }: 
         <AlertDialogHeader>
           <AlertDialogTitle>¿Está seguro?</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción eliminará el {config.name.toLowerCase()} &apos;{displayName}&apos; y no se puede deshacer.
+            Esta acción eliminará el {config.name.toLowerCase()} &apos;
+            {displayName}&apos; y no se puede deshacer.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} className="bg-red-500 hover:bg-red-600" disabled={isLoading}>
+          <AlertDialogCancel className="cursor-pointer" disabled={isLoading}>Cancelar</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDelete}
+            className="bg-red-200 hover:bg-red-300 text-red-900 cursor-pointer"
+            disabled={isLoading}
+          >
             {isLoading ? "Eliminando..." : "Eliminar"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }
 

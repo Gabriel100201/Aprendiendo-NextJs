@@ -23,7 +23,7 @@ const LogoutButton = () => {
   }
   return (
     <Button variant={"outline"} onClick={handleLogout} disabled={isLoading}>
-      {isLoading ? "Logging out..." : "Logout"}
+      {isLoading ? "Cerrando Sesión..." : "Cerrar Sesión"}
     </Button>
   )
 }

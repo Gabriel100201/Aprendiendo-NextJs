@@ -1,3 +1,7 @@
 export default function Loading() {
-  return <div className="bg-red-500 w-96 h-96">Loading...</div>
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <div className="border-gray-900 border-b-2 rounded-full w-12 h-12 animate-spin"></div>
+    </div>
+  )
 }
