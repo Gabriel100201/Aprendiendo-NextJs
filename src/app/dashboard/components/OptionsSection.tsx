@@ -15,18 +15,18 @@ const options: Option[] = [
   {
     name: "Agregar / Editar Categoria",
     subPath: "categorias",
-    icon: "plus-square",
+    icon: "blocks",
   },
   {
     name: "Agregar / Editar Servicio",
     subPath: "servicios",
-    icon: "plus-square",
+    icon: "file-pen-line",
   },
   {
     name: "Enlazar Servicio - Categoría",
     subPath: "categorias-servicios",
     icon: "link",
-  },
+  }
 ];
 
 export const OptionsSection = () => {
